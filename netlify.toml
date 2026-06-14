@@ -1,0 +1,15 @@
+# Netlify configuration for The Unhurried Lifestyle
+# This is a static site with no build step — Netlify just serves the files.
+
+[build]
+  # Nothing to build; publish the repository root (where index.html lives).
+  publish = "."
+  command = ""
+
+# Gentle security + caching headers (optional, but nice to have).
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

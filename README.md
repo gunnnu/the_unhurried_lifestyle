@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0cf4dff5-5e46-4800-b26d-5e6448668c5c/deploy-status)](https://app.netlify.com/projects/the-unhurried-lifestyle/deploys)
+
 # The Unhurried Lifestyle
 
 A calm, single-page static site for a holistic wellness brand.

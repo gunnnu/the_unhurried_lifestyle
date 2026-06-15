@@ -338,7 +338,7 @@
   </header>
 
   <!-- ============================================================
-       2 · FREE GUIDE  (Netlify Forms — no backend needed)
+       2 · FREE GUIDE  (MailerLite signup — no backend needed)
        ============================================================ -->
   <section id="free-guide">
     <div class="wrap reveal">
@@ -352,30 +352,36 @@
         </p>
 
         <!--
-          Netlify Forms: the `netlify` attribute + a `name` make this work
-          with zero backend. Submissions appear in your Netlify dashboard
-          under Forms. The hidden inputs below are required by Netlify.
+          MAILERLITE SIGNUP — posts straight to MailerLite, no backend needed.
 
-          To actually email the PDF: in Netlify → Forms → set up a
-          notification or connect an automation (e.g. Zapier) that sends the
-          download link. Or swap this form's action for your email provider
-          (ConvertKit / MailerLite / Beehiiv) embed if you prefer.
+          ONE-TIME SETUP:
+          1. In MailerLite, create a Group (e.g. "Free Guide") and an
+             Embedded form for it. Choose the "HTML form" / build-your-own
+             option to reveal your IDs.
+          2. In the form's `action` below, replace the two placeholders:
+               MAILERLITE_ACCOUNT_ID  →  your numeric account ID
+               MAILERLITE_FORM_ID     →  this form's ID
+          3. Build the delivery automation (this is what actually sends the
+             guide): Trigger = "subscriber joins the Free Guide group",
+             Action = send the welcome email in /email/welcome-guide-email.html
+             with your real PDF download link. Authenticate your domain so it
+             sends from hello@theunhurried.lifestyle.
+
+          Prefer MailerLite's copy-paste JavaScript snippet instead? You can
+          drop it in and delete this whole form — but this version keeps the
+          calm, on-brand styling and the in-page thank-you below.
         -->
         <form
-          name="free-guide"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
+          action="https://assets.mailerlite.com/jsonp/MAILERLITE_ACCOUNT_ID/forms/MAILERLITE_FORM_ID/subscribe"
+          method="post"
           class="signup"
           id="signupForm"
         >
-          <input type="hidden" name="form-name" value="free-guide" />
-          <p class="hp">
-            <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-          </p>
+          <!-- honeypot: real people leave this blank; bots tend to fill it -->
+          <input type="text" name="b_name" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <input
             type="email"
-            name="email"
+            name="fields[email]"
             placeholder="your@email.com"
             aria-label="Email address"
             required
@@ -387,7 +393,7 @@
 
         <!-- Calm thank-you, revealed after submit -->
         <div class="thanks" id="thanksMsg" role="status" aria-live="polite">
-          <p>🌿 Thank you. Take a breath — your guide is on its way to your inbox. Check your email (and the promotions tab, just in case).</p>
+          <p>🌿 Thank you. One last gentle step — pop over to your inbox and confirm your email, and your guide will be on its way. (Peek in the promotions tab too, just in case.)</p>
         </div>
       </div>
     </div>
@@ -508,26 +514,33 @@
       reveals.forEach(function (el) { el.classList.add("in"); });
     }
 
-    // Calm thank-you after submit.
-    // Netlify intercepts the POST, so we submit via fetch and then show the
-    // thank-you in place — no page reload, no external dependency.
+    // Signup → MailerLite, with a calm in-page thank-you (no page reload).
+    // MailerLite's endpoint is cross-origin, so we POST with mode:"no-cors".
+    // The response is opaque (we can't read it), so we optimistically show the
+    // thank-you — MailerLite still records the subscriber, and its confirmation
+    // email does the rest. No backend, no external dependency.
     var form = document.getElementById("signupForm");
     if (form) {
       form.addEventListener("submit", function (ev) {
         ev.preventDefault();
-        var data = new FormData(form);
-        fetch("/", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams(data).toString()
-        }).then(function () {
+
+        // honeypot: if the hidden field was filled, it's a bot — quietly stop
+        var trap = form.querySelector(".hp");
+        if (trap && trap.value) return;
+
+        var reveal = function () {
           form.style.display = "none";
-          document.querySelector(".form-note").style.display = "none";
+          var note = document.querySelector(".form-note");
+          if (note) note.style.display = "none";
           document.getElementById("thanksMsg").classList.add("show");
-        }).catch(function () {
-          // Fallback: let the browser do a normal submit
-          form.submit();
-        });
+        };
+
+        fetch(form.action, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(new FormData(form)).toString()
+        }).then(reveal).catch(reveal);
       });
     }
   </script>

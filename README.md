@@ -6,7 +6,8 @@ A calm, single-page static site for a holistic wellness brand.
 **Tagline:** *Gentle habits for a calmer, healthier life.*
 
 Plain HTML + CSS with a touch of vanilla JS — no frameworks, no build step.
-Just `index.html` (everything is self-contained), `netlify.toml`, and this README.
+`index.html` is self-contained; `netlify.toml` is zero-config; the `email/`
+folder holds the ready-to-paste MailerLite welcome email.
 
 ---
 
@@ -63,23 +64,45 @@ products you recommend.
 
 ---
 
-## 4 · The free guide email form
+## 4 · The free guide email form (MailerLite)
 
-The signup form uses **Netlify Forms** — no backend, no external service needed.
+The signup form posts straight to **MailerLite**, which delivers the guide
+automatically via an autoresponder — no backend, no server.
 
-- Submissions appear in your Netlify dashboard under **Forms → free-guide**.
-- After someone submits, they see a calm in-page thank-you message.
+### One-time setup
+1. **Create a MailerLite account** (free tier is plenty to start).
+2. **Authenticate your domain** (MailerLite → Settings → Domains) so emails
+   send from `hello@theunhurried.lifestyle` and land in inboxes, not spam.
+3. **Create a Group** (e.g. *Free Guide*) and an **Embedded form** for it.
+   Choose the **"HTML form" / build-your-own** option — that screen shows your
+   **Account ID** and **Form ID**.
+4. **Paste those two IDs** into the form's `action` in `index.html`. Search for
+   `MAILERLITE_ACCOUNT_ID` and `MAILERLITE_FORM_ID` and replace both:
+   ```
+   action="https://assets.mailerlite.com/jsonp/MAILERLITE_ACCOUNT_ID/forms/MAILERLITE_FORM_ID/subscribe"
+   ```
+5. **Build the delivery automation** (this is what actually sends the guide):
+   - **Trigger:** *Subscriber joins the "Free Guide" group*
+   - **Action:** *Send email* → use the ready-made template in
+     [`email/welcome-guide-email.html`](email/welcome-guide-email.html)
+   - In that email, set the download button to your real PDF link, e.g.
+     `https://theunhurried.lifestyle/5-unhurried-morning-habits.pdf`
+     (drop the PDF into this repo so it deploys with the site).
 
-**To actually deliver the PDF "5 Unhurried Morning Habits":**
-1. Add your PDF to this project (e.g. `5-unhurried-morning-habits.pdf`) so it
-   deploys with the site.
-2. In **Netlify → Forms → Settings & notifications**, add a notification (or
-   connect an automation like Zapier / Make) that emails new subscribers the
-   download link: `https://theunhurried.lifestyle/5-unhurried-morning-habits.pdf`.
+After someone signs up they see a calm in-page thank-you, then MailerLite's
+confirmation + welcome email delivers the guide. Done — hands-off.
 
-Prefer an email tool instead (ConvertKit, MailerLite, Beehiiv)? Replace the
-`<form>` in `index.html` with that provider's embed code — the rest of the page
-stays the same.
+> Prefer MailerLite's copy-paste **JavaScript snippet** instead? You can drop it
+> in and delete the `<form>` in `index.html`. The custom form is included
+> because it keeps the calm, on-brand styling and the in-page thank-you.
+
+### Your welcome email
+`email/welcome-guide-email.html` is a ready-to-paste, **email-safe** HTML
+template (on-brand sage/clay, table-based, inline styles, tested-pattern markup
+that survives Outlook). The matching **MJML source** is
+`email/welcome-guide-email.mjml` if you'd rather edit in MJML and recompile.
+See `email/README.md` for exactly what to swap in and how to paste it into
+MailerLite.
 
 ---
 

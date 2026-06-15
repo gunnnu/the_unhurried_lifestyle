@@ -1,0 +1,91 @@
+<!--
+  THE UNHURRIED LIFESTYLE — welcome / freebie email (MJML source)
+
+  MJML writes the gnarly, Outlook-proof table HTML for you. Edit this file,
+  then compile to the email-safe HTML you paste into MailerLite:
+
+     npx mjml email/welcome-guide-email.mjml -o email/welcome-guide-email.html
+
+  (or paste this into the live editor at https://mjml.io/try-it-live)
+
+  SWAP before sending:
+    • LOGO_URL          → hosted logo, e.g. https://theunhurried.lifestyle/assets/images/logo.png
+    • PDF_DOWNLOAD_URL  → your guide, e.g. https://theunhurried.lifestyle/5-unhurried-morning-habits.pdf
+  MailerLite fills {$unsubscribe} and {$account.*} automatically — leave them.
+
+  Palette: bg #F5F1EA · panel #FBF8F2 · sage #8B9A72 · clay #C8A48A · ink #2E2E2E
+-->
+<mjml>
+  <mj-head>
+    <mj-title>Your Unhurried Morning guide</mj-title>
+    <mj-preview>Your free guide is here — five soft, doable rituals for a calmer morning. No rush.</mj-preview>
+    <mj-font name="Fraunces" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" />
+    <mj-font name="Work Sans" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500&display=swap" />
+    <mj-attributes>
+      <mj-all font-family="Work Sans, Arial, sans-serif" />
+      <mj-text color="#5A574F" font-size="17px" line-height="1.7" />
+    </mj-attributes>
+    <mj-style>
+      a { color: #8B9A72; }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#F5F1EA">
+    <mj-section padding="32px 16px 8px">
+      <mj-column background-color="#FBF8F2" border="1px solid #E2DACB" border-radius="18px" padding="32px 16px">
+
+        <!-- SWAP: LOGO_URL -->
+        <mj-image src="LOGO_URL" alt="The Unhurried Lifestyle" width="120px" padding="12px 0 8px" />
+
+        <mj-text align="center" color="#8B9A72" font-size="12px" letter-spacing="3px" text-transform="uppercase" padding="8px 24px 0">
+          A gift for you
+        </mj-text>
+
+        <mj-text align="center" font-family="Fraunces, Georgia, serif" color="#2E2E2E" font-size="34px" line-height="1.15" font-weight="500" padding="8px 24px 0">
+          5 Unhurried Morning Habits
+        </mj-text>
+
+        <mj-text padding="24px 32px 0">Hello, and welcome &mdash; take a breath. You&rsquo;re in.</mj-text>
+        <mj-text padding="14px 32px 0">
+          Here is your free one-page guide: five soft, doable rituals to begin your day
+          without the scramble. No 5&nbsp;a.m. alarms, no pressure to overhaul anything.
+          Just a gentler way to meet the morning.
+        </mj-text>
+        <mj-text padding="14px 32px 0">
+          Try one. Leave the rest for another day. There&rsquo;s no rush here.
+        </mj-text>
+
+        <!-- SWAP: PDF_DOWNLOAD_URL -->
+        <mj-button href="PDF_DOWNLOAD_URL" background-color="#8B9A72" color="#F5F1EA" font-family="Work Sans, Arial, sans-serif" font-size="16px" font-weight="500" border-radius="999px" inner-padding="16px 36px" padding="32px 24px 8px">
+          Download your guide
+        </mj-button>
+
+        <mj-text padding="24px 32px 0">Warmly, and unhurried,</mj-text>
+        <mj-text font-family="Fraunces, Georgia, serif" color="#2E2E2E" font-size="20px" padding="0 32px">
+          The Unhurried Lifestyle
+        </mj-text>
+
+        <mj-divider border-color="#E2DACB" border-width="1px" padding="28px 32px 0" />
+
+        <mj-text font-size="14px" line-height="1.6" padding="18px 32px 12px">
+          P.S. If a calmer morning feels good, you might love
+          <a href="https://theunhurried.lifestyle/#reset" style="color:#C8A48A;">The Unhurried Reset</a>
+          &mdash; a gentle 7-day morning guide. No rush, only when you&rsquo;re ready.
+        </mj-text>
+
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer: CAN-SPAM address + unsubscribe (MailerLite fills the tags) -->
+    <mj-section padding="8px 16px 24px">
+      <mj-column>
+        <mj-text align="center" color="#9c968a" font-size="12px" line-height="1.6">
+          The Unhurried Lifestyle &middot; hello@theunhurried.lifestyle<br />
+          {$account.company}, {$account.address}<br />
+          You&rsquo;re receiving this because you asked for the free guide.
+          <a href="{$unsubscribe}" style="color:#9c968a;">Unsubscribe</a> anytime &mdash; no hard feelings.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
